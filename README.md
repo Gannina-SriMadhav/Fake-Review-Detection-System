@@ -249,7 +249,7 @@ legacy/         the original Flask prototype, kept for reference
 
 ## 👤 Contact
 
-**Madhav Gannina** — creator & administrator
+**Sri Madhav Gannina** — creator & administrator
 
 - LinkedIn: [linkedin.com/in/madhavgannina](https://www.linkedin.com/in/madhavgannina)
 - Email: [madhav.gannina21@gmail.com](mailto:madhav.gannina21@gmail.com)
