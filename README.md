@@ -103,6 +103,7 @@ A project that only reports good news isn't engineering. Running the robustness 
 - **Every very short review ("Good.", "Nice.", "Works well.") is predicted FAKE.** The training data contains essentially no reviews under 5 words in either class (0 genuine, 3 fake), so the models extrapolate from nothing — an artefact of the dataset, not knowledge. The app therefore marks reviews shorter than the 1st percentile of training lengths as **out-of-support → LOW confidence with an explicit warning**. No length rule decides a label; the fix for real is labelled short genuine reviews.
 - An enthusiastic "Absolutely amazing!!! Best product ever!!! Buy this now!!!" is predicted **GENUINE** — the model is *not* using "positive tone = fake".
 - **Scope:** the dataset's "fake" class is *computer-generated* text vs *original* human reviews. The system is **not validated on paid human fake reviews**, other languages or other domains.
+- **English only.** The models learned from English reviews. Text in other languages (non-Latin scripts, or Latin-script text that doesn't look English) is detected by a lightweight check and returned with a warning and **LOW confidence** — the model's output for those inputs is not meaningful.
 - Class balance is 50/50; real-world fake prevalence is lower, so absolute probabilities need re-calibration before production use.
 
 ---
@@ -246,8 +247,19 @@ legacy/         the original Flask prototype, kept for reference
 
 ---
 
+## 👤 Contact
+
+**Madhav Gannina** — creator & administrator
+
+- LinkedIn: [linkedin.com/in/madhavgannina](https://www.linkedin.com/in/madhavgannina)
+- Email: [madhav.gannina21@gmail.com](mailto:madhav.gannina21@gmail.com)
+- Also on the site: **Contact** tab
+
+---
+
 ## 🔭 Roadmap
 
+- Add **multilingual** support (train/evaluate on labelled reviews per language, or a multilingual transformer).
 - Collect **labelled short genuine reviews** to fix the short-review blind spot (highest priority).
 - Evaluate on **human-written fake reviews** and other domains; re-calibrate for realistic fake prevalence.
 - Run the DistilBERT benchmark on GPU and promote it only if it wins on validation.

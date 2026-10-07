@@ -13,6 +13,7 @@ from src.evaluation.metrics import confidence_level
 from src.explainability.explain import describe, lime_explain, occlusion
 from src.explainability.similarity import SimilarityIndex
 from src.features.style import style_features
+from src.preprocessing.language import detect_language
 from src.monitoring.store import PredictionStore
 
 DISCLAIMER = "Model prediction only - an automated estimate, not proof that a review is fraudulent."
@@ -64,7 +65,10 @@ class ModelService:
         c = self.cfg["confidence"]
         return confidence_level(conf, c["high"], c["medium"])
 
-    def _warning(self, label: str, conf: float, level: str, in_support: bool = True):
+    def _warning(self, label: str, conf: float, level: str, in_support: bool = True, lang: dict | None = None):
+        if lang and not lang["supported"]:
+            return (f"This review may not be in English ({lang['reason']}). The models were trained on English reviews only, "
+                    f"so this result is not reliable. Please submit English text.")
         if not in_support:
             return (f"Out-of-support input: the training data contains almost no reviews shorter than {self.min_support_words} words, "
                     f"so the model has little real evidence here and its probability ({conf:.1%}) is not reliable. "
@@ -104,7 +108,8 @@ class ModelService:
         conf = p_fake if label == "FAKE" else 1 - p_fake
         level = self._level(conf)
         in_support = len(text.split()) >= self.min_support_words
-        if not in_support:
+        lang = detect_language(text)
+        if not in_support or not lang["supported"]:
             level = "LOW"
         st = style_features(text)
         sim = self.sim.query(text) if self.sim else {"max_similarity": 0.0, "level": "NONE", "warning": False,
@@ -117,7 +122,8 @@ class ModelService:
         out = {"prediction": label, "confidence": round(conf, 4), "confidence_level": level,
                "probabilities": {"GENUINE": round(1 - p_fake, 4), "FAKE": round(p_fake, 4)},
                "model": self.meta["models"][key], "model_key": key, "processing_time_ms": round(ms, 1),
-               "explanation": lines, "contributions": contrib, "warning": self._warning(label, conf, level, in_support), "in_training_support": in_support,
+               "explanation": lines, "contributions": contrib, "warning": self._warning(label, conf, level, in_support, lang), "in_training_support": in_support and lang["supported"],
+               "language_supported": lang["supported"],
                "similarity_warning": bool(sim["warning"]), "similarity": sim,
                "statistics": {"word_count": len(text.split()), "char_count": len(text),
                               "sentence_count": st["sentence_count"], "sentiment": round(st["sentiment_compound"], 3),
@@ -141,7 +147,7 @@ class ModelService:
             conf = pf if label == "FAKE" else 1 - pf
             sent = style_features(t)["sentiment_compound"]
             sim = self.sim.query(t)["max_similarity"] if self.sim else 0.0
-            lvl = self._level(conf) if len(t.split()) >= self.min_support_words else "LOW"
+            lvl = self._level(conf) if len(t.split()) >= self.min_support_words and detect_language(t)["supported"] else "LOW"
             item = {"prediction": label, "confidence": round(conf, 4), "confidence_level": lvl,
                     "p_fake": round(pf, 4), "sentiment": round(sent, 3), "similarity_score": sim}
             if explain:

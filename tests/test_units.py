@@ -56,3 +56,12 @@ def test_data_quality_and_split_no_leakage():
     assert not df.text.str.lower().duplicated().any()
     tr, va, te = split_dataset(df, cfg)
     assert not set(tr.group) & set(te.group) and not set(tr.text.str.lower()) & set(te.text.str.lower())
+
+
+def test_language_detection():
+    from src.preprocessing.language import detect_language as d
+    assert d("I bought this last week and it works fine, very good.")["supported"]
+    assert d("Good.")["supported"]  # too short to judge -> not flagged
+    for t in ["यह उत्पाद बहुत अच्छा है और मुझे पसंद आया", "这个产品非常好，我很喜欢", "ఈ ఉత్పత్తి చాలా బాగుంది నాకు నచ్చింది",
+              "Este producto es muy bueno y me gusta mucho la calidad", "Ce produit est vraiment excellent et je le recommande"]:
+        assert not d(t)["supported"], t

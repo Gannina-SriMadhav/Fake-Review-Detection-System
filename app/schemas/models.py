@@ -68,6 +68,7 @@ class Prediction(BaseModel):
     contributions: Optional[dict] = None
     warning: Optional[str] = None
     in_training_support: bool = True
+    language_supported: bool = True
     similarity_warning: bool = False
     similarity: Optional[Similarity] = None
     statistics: Optional[Stats] = None

@@ -110,3 +110,10 @@ def test_model_selection_and_compare(client):
 def test_web_ui_served(client):
     r = client.get("/")
     assert r.status_code == 200 and "Fake Review Intelligence" in r.text and "streamlit" not in r.text.lower()
+
+
+def test_non_english_is_flagged(client):
+    for t in ["यह उत्पाद बहुत अच्छा है और मुझे पसंद आया", "Este producto es muy bueno y me gusta mucho la calidad"]:
+        d = client.post("/predict", json={"review": t, "explain": False}).json()
+        assert d["confidence_level"] == "LOW" and d["language_supported"] is False and "English" in d["warning"]
+    assert client.post("/predict", json={"review": "It works well and arrived on time, I like it.", "explain": False}).json()["language_supported"]

@@ -108,7 +108,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:10px 0 40px}
       <div class="step"><b>Confidence is calibrated</b><span>The raw score is corrected so "80%" really means about 80% of such cases were right on test data. No fake precision.</span></div>
       <div class="step"><b>You get the evidence</b><span>The verdict, a confidence level, which words pushed it each way, and a check for near-copies of known reviews.</span></div>
     </div>
-    <div class="note"><span>🛡️</span><span><b>Read this once:</b> the result is a statistical <i>estimate</i>, never proof. Short or unusual reviews give weak evidence and are flagged LOW confidence. The model was taught to tell computer-generated reviews from human ones, so it isn't validated on paid human fakes.</span></div>
+    <div class="note"><span>🛡️</span><span><b>Read this once:</b> the result is a statistical <i>estimate</i>, never proof. Short or unusual reviews give weak evidence and are flagged LOW confidence. The model was taught to tell computer-generated reviews from human ones, so it isn't validated on paid human fakes. <b>English only:</b> reviews in other languages are detected and flagged as unreliable.</span></div>
   </div>
 
   <div class="glass">
@@ -142,7 +142,19 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:10px 0 40px}
 <section id="models" class="hidden"><div class="hero" style="padding-bottom:10px"><h1 class="t" style="font-size:42px">Model <span class="grad">report card</span></h1><p>Every number below was measured on reviews the models never saw during training.</p></div><div id="mout" class="glass muted">Loading…</div></section>
 <section id="monitor" class="hidden"><div class="hero" style="padding-bottom:10px"><h1 class="t" style="font-size:42px">Live <span class="grad">monitor</span></h1><p>Watches for the data changing so the model is not trusted blindly.</p></div><div id="monout" class="glass muted">Loading…</div></section>
 </main>
-<footer>Veritas · Model predictions are automated estimates, not proof that a review is fraudulent.</footer>
+<section id="contact" class="hidden" style="max-width:1020px;margin:0 auto;padding:0 clamp(14px,3vw,24px) 60px">
+  <div class="hero" style="padding-bottom:10px"><h1 class="t" style="font-size:42px">Contact <span class="grad">the admin</span></h1><p>Questions, feedback or collaboration - get in touch.</p></div>
+  <div class="glass" style="text-align:center">
+    <div class="logo" style="justify-content:center;font-size:26px"><b style="width:64px;height:64px;border-radius:18px;font-size:30px">M</b></div>
+    <h2 style="margin-top:12px;font-size:26px">Madhav Gannina</h2><p class="sub">Creator &amp; administrator of Veritas</p>
+    <div class="bar-row" style="justify-content:center;gap:12px">
+      <a class="cta" style="text-decoration:none;display:inline-block" href="https://www.linkedin.com/in/madhavgannina" target="_blank" rel="noopener noreferrer">LinkedIn · madhavgannina</a>
+      <a class="ghost" style="text-decoration:none;display:inline-block;padding:12px 22px" href="mailto:madhav.gannina21@gmail.com">✉ madhav.gannina21@gmail.com</a>
+    </div>
+    <p class="muted" style="margin-top:16px">Source code: <a style="color:var(--b)" href="https://github.com/Gannina-SriMadhav/Fake-Review-Detection-System" target="_blank" rel="noopener noreferrer">github.com/Gannina-SriMadhav/Fake-Review-Detection-System</a></p>
+  </div>
+</section>
+<footer>Veritas · Model predictions are automated estimates, not proof that a review is fraudulent.<br>Built by <a style="color:var(--b)" href="https://www.linkedin.com/in/madhavgannina" target="_blank" rel="noopener noreferrer">Madhav Gannina</a> · <a style="color:var(--b)" href="mailto:madhav.gannina21@gmail.com">madhav.gannina21@gmail.com</a></footer>
 
 <script>
 const $=s=>document.querySelector(s),esc=t=>String(t??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -155,7 +167,7 @@ async function api(p,o){let r;try{r=await fetch(p,o)}catch(e){throw new Error('C
   const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(Array.isArray(d.detail)?d.detail.join('; '):(d.detail||'Request failed'));return d}
 const post=(p,b)=>api(p,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(b)});
 
-const TABS={analyze:'Analyze',batch:'Batch',models:'Models',monitor:'Monitor'};
+const TABS={analyze:'Analyze',batch:'Batch',models:'Models',monitor:'Monitor',contact:'Contact'};
 $('#nav').innerHTML=Object.entries(TABS).map(([k,v])=>`<button data-t="${k}">${v}</button>`).join('');
 function show(t){for(const k in TABS)$('#'+k).classList.toggle('hidden',k!==t);
   document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
