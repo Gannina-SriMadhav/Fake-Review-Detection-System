@@ -1,0 +1,312 @@
+{
+  "cases": [
+    {
+      "category": "simple_short",
+      "review": "Good.",
+      "prediction": "FAKE",
+      "confidence": 1.0,
+      "p_fake": 1.0
+    },
+    {
+      "category": "simple_short",
+      "review": "Nice.",
+      "prediction": "FAKE",
+      "confidence": 1.0,
+      "p_fake": 1.0
+    },
+    {
+      "category": "simple_short",
+      "review": "Good product.",
+      "prediction": "FAKE",
+      "confidence": 0.945,
+      "p_fake": 0.945
+    },
+    {
+      "category": "simple_short",
+      "review": "Works well.",
+      "prediction": "FAKE",
+      "confidence": 0.997,
+      "p_fake": 0.997
+    },
+    {
+      "category": "simple_short",
+      "review": "Very useful.",
+      "prediction": "FAKE",
+      "confidence": 0.876,
+      "p_fake": 0.876
+    },
+    {
+      "category": "simple_short",
+      "review": "I liked it.",
+      "prediction": "FAKE",
+      "confidence": 0.997,
+      "p_fake": 0.997
+    },
+    {
+      "category": "simple_short",
+      "review": "Excellent quality.",
+      "prediction": "FAKE",
+      "confidence": 0.964,
+      "p_fake": 0.964
+    },
+    {
+      "category": "simple_short",
+      "review": "Not bad.",
+      "prediction": "FAKE",
+      "confidence": 0.998,
+      "p_fake": 0.998
+    },
+    {
+      "category": "simple_short",
+      "review": "Average product.",
+      "prediction": "FAKE",
+      "confidence": 0.903,
+      "p_fake": 0.903
+    },
+    {
+      "category": "simple_short",
+      "review": "Okay.",
+      "prediction": "FAKE",
+      "confidence": 1.0,
+      "p_fake": 1.0
+    },
+    {
+      "category": "simple_short",
+      "review": "Average.",
+      "prediction": "FAKE",
+      "confidence": 0.994,
+      "p_fake": 0.994
+    },
+    {
+      "category": "simple_short",
+      "review": "Works as expected.",
+      "prediction": "FAKE",
+      "confidence": 0.926,
+      "p_fake": 0.926
+    },
+    {
+      "category": "simple_short",
+      "review": "This is good.",
+      "prediction": "FAKE",
+      "confidence": 0.995,
+      "p_fake": 0.995
+    },
+    {
+      "category": "simple_short",
+      "review": "Nice product, works well.",
+      "prediction": "FAKE",
+      "confidence": 0.943,
+      "p_fake": 0.943
+    },
+    {
+      "category": "simple_short",
+      "review": "Very useful product.",
+      "prediction": "FAKE",
+      "confidence": 0.755,
+      "p_fake": 0.755
+    },
+    {
+      "category": "positive_enthusiastic",
+      "review": "Best purchase ever.",
+      "prediction": "FAKE",
+      "confidence": 0.781,
+      "p_fake": 0.781
+    },
+    {
+      "category": "positive_enthusiastic",
+      "review": "Absolutely amazing!!!",
+      "prediction": "FAKE",
+      "confidence": 0.904,
+      "p_fake": 0.904
+    },
+    {
+      "category": "positive_enthusiastic",
+      "review": "Absolutely amazing!!! Best product ever!!! Buy this now!!!",
+      "prediction": "GENUINE",
+      "confidence": 0.981,
+      "p_fake": 0.019
+    },
+    {
+      "category": "positive_enthusiastic",
+      "review": "Very good product, satisfied.",
+      "prediction": "GENUINE",
+      "confidence": 0.513,
+      "p_fake": 0.487
+    },
+    {
+      "category": "negative",
+      "review": "Terrible product.",
+      "prediction": "GENUINE",
+      "confidence": 0.568,
+      "p_fake": 0.432
+    },
+    {
+      "category": "negative",
+      "review": "Not worth the money.",
+      "prediction": "FAKE",
+      "confidence": 0.971,
+      "p_fake": 0.971
+    },
+    {
+      "category": "negative",
+      "review": "Broke after two days, very disappointed.",
+      "prediction": "GENUINE",
+      "confidence": 0.669,
+      "p_fake": 0.331
+    },
+    {
+      "category": "neutral_specific",
+      "review": "I bought this last week and it works fine.",
+      "prediction": "FAKE",
+      "confidence": 0.687,
+      "p_fake": 0.687
+    },
+    {
+      "category": "neutral_specific",
+      "review": "This product is good but the packaging was damaged.",
+      "prediction": "GENUINE",
+      "confidence": 0.758,
+      "p_fake": 0.242
+    },
+    {
+      "category": "neutral_specific",
+      "review": "Arrived on time. Does the job, nothing special.",
+      "prediction": "GENUINE",
+      "confidence": 0.922,
+      "p_fake": 0.078
+    },
+    {
+      "category": "long_detailed",
+      "review": "I have been using this vacuum for about two months on hardwood floors and a small rug. Suc",
+      "prediction": "GENUINE",
+      "confidence": 0.928,
+      "p_fake": 0.072
+    },
+    {
+      "category": "promotional_looking",
+      "review": "Great product! Great quality! Great price! Highly recommend to everyone, five stars, buy i",
+      "prediction": "GENUINE",
+      "confidence": 0.887,
+      "p_fake": 0.113
+    },
+    {
+      "category": "poorly_written",
+      "review": "gud prodct work fine thx",
+      "prediction": "GENUINE",
+      "confidence": 0.964,
+      "p_fake": 0.036
+    },
+    {
+      "category": "poorly_written",
+      "review": "it is not working proper but ok price",
+      "prediction": "GENUINE",
+      "confidence": 0.996,
+      "p_fake": 0.004
+    },
+    {
+      "category": "repeated_text",
+      "review": "Good product. Good product. Good product. Good product.",
+      "prediction": "FAKE",
+      "confidence": 1.0,
+      "p_fake": 1.0
+    },
+    {
+      "category": "edge_inputs",
+      "review": "a",
+      "prediction": "FAKE",
+      "confidence": 1.0,
+      "p_fake": 1.0
+    },
+    {
+      "category": "edge_inputs",
+      "review": "!!!",
+      "prediction": "FAKE",
+      "confidence": 1.0,
+      "p_fake": 1.0
+    },
+    {
+      "category": "edge_inputs",
+      "review": "12345",
+      "prediction": "GENUINE",
+      "confidence": 0.903,
+      "p_fake": 0.097
+    },
+    {
+      "category": "edge_inputs",
+      "review": "\ud83d\udc4d\ud83d\udc4d\ud83d\udc4d",
+      "prediction": "FAKE",
+      "confidence": 0.993,
+      "p_fake": 0.993
+    },
+    {
+      "category": "edge_inputs",
+      "review": "<b>nice</b> http://example.com",
+      "prediction": "GENUINE",
+      "confidence": 0.632,
+      "p_fake": 0.368
+    },
+    {
+      "category": "edge_inputs",
+      "review": "x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x x ",
+      "prediction": "FAKE",
+      "confidence": 1.0,
+      "p_fake": 1.0
+    }
+  ],
+  "summary": [
+    {
+      "category": "edge_inputs",
+      "n": 6,
+      "pct_fake": 66.7,
+      "mean_conf": 0.921
+    },
+    {
+      "category": "long_detailed",
+      "n": 1,
+      "pct_fake": 0.0,
+      "mean_conf": 0.928
+    },
+    {
+      "category": "negative",
+      "n": 3,
+      "pct_fake": 33.3,
+      "mean_conf": 0.736
+    },
+    {
+      "category": "neutral_specific",
+      "n": 3,
+      "pct_fake": 33.3,
+      "mean_conf": 0.789
+    },
+    {
+      "category": "poorly_written",
+      "n": 2,
+      "pct_fake": 0.0,
+      "mean_conf": 0.98
+    },
+    {
+      "category": "positive_enthusiastic",
+      "n": 4,
+      "pct_fake": 50.0,
+      "mean_conf": 0.795
+    },
+    {
+      "category": "promotional_looking",
+      "n": 1,
+      "pct_fake": 0.0,
+      "mean_conf": 0.887
+    },
+    {
+      "category": "repeated_text",
+      "n": 1,
+      "pct_fake": 100.0,
+      "mean_conf": 1.0
+    },
+    {
+      "category": "simple_short",
+      "n": 15,
+      "pct_fake": 100.0,
+      "mean_conf": 0.953
+    }
+  ]
+}

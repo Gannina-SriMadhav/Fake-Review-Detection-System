@@ -1,0 +1,47 @@
+{
+  "model_key": "linear_svc",
+  "model_name": "Linear SVM + TF-IDF",
+  "version": "2026.10.07.0655",
+  "trained_at": "2026-10-07T06:55:11.593584Z",
+  "selection_metric": "f1_fake",
+  "selection_split": "validation",
+  "confidence_thresholds": {
+    "high": 0.85,
+    "medium": 0.7
+  },
+  "calibration": "sigmoid",
+  "n_train": 28850,
+  "n_val": 5770,
+  "n_test": 5771,
+  "dataset": "data/fake reviews dataset.csv",
+  "style_features": [
+    "word_count",
+    "char_count",
+    "sentence_count",
+    "avg_word_len",
+    "lexical_diversity",
+    "repeated_word_ratio",
+    "punct_ratio",
+    "exclamation_ratio",
+    "question_ratio",
+    "uppercase_ratio",
+    "digit_ratio",
+    "emoji_count",
+    "url_count",
+    "repeated_char_runs",
+    "avg_sentence_len",
+    "sentiment_compound",
+    "sentiment_pos",
+    "sentiment_neg"
+  ],
+  "params": {
+    "C": 1.0
+  },
+  "models": {
+    "logreg": "Logistic Regression + TF-IDF",
+    "linear_svc": "Linear SVM + TF-IDF",
+    "naive_bayes": "Naive Bayes + TF-IDF",
+    "random_forest": "Random Forest",
+    "ensemble": "Soft-voting Ensemble (LR+SVM+NB)"
+  }
+}

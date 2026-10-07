@@ -1,0 +1,2 @@
+# DVC reads configs/config.yaml directly; keep this file as a pointer for `dvc params diff`
+config: configs/config.yaml

@@ -1,0 +1,20 @@
+{
+  "raw_rows": 40432,
+  "unmapped_labels": 0,
+  "missing_text": 0,
+  "conflicting_label_duplicates": 0,
+  "exact_duplicates_removed": 41,
+  "near_duplicate_clusters_gt1": 109,
+  "rows_in_near_dup_clusters": 259,
+  "clean_rows": 40391,
+  "fake_fraction": 0.49951721918249115,
+  "label_counts": {
+    "GENUINE": 20215,
+    "FAKE": 20176
+  },
+  "split_sizes": {
+    "train": 28850,
+    "val": 5770,
+    "test": 5771
+  }
+}

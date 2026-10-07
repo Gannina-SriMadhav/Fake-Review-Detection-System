@@ -1,0 +1,21 @@
+stages:
+  train:
+    cmd: python -m src.models.train
+    deps:
+      - data/fake reviews dataset.csv
+      - src
+      - configs/config.yaml
+    outs:
+      - models/similarity_index.joblib
+      - models/model_meta.json
+      - models/reference_stats.json
+    metrics:
+      - reports/model_comparison.csv:
+          cache: false
+    plots:
+      - reports/evaluation.json:
+          cache: false
+  robustness:
+    cmd: python -m src.evaluation.robustness
+    deps: [models/model_meta.json, src/evaluation/robustness.py]
+    outs: [reports/robustness.json]

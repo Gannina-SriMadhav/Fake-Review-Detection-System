@@ -1,0 +1,20 @@
+numpy
+pandas
+scipy
+scikit-learn
+nltk
+joblib
+pyyaml
+fastapi
+uvicorn
+pydantic
+python-multipart
+prometheus-client
+requests
+mlflow
+lime
+shap
+evidently
+pytest
+httpx
+# optional (transformer experiment): torch, transformers, accelerate

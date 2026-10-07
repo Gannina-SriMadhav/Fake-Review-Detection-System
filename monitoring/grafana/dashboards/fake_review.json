@@ -1,0 +1,5 @@
+{"title":"Fake Review Intelligence","schemaVersion":39,"panels":[
+ {"id":1,"type":"timeseries","title":"Predictions / min by label","gridPos":{"x":0,"y":0,"w":12,"h":8},"targets":[{"expr":"sum by (label) (rate(fr_predictions_total[5m]))*60"}]},
+ {"id":2,"type":"timeseries","title":"Low-confidence rate","gridPos":{"x":12,"y":0,"w":12,"h":8},"targets":[{"expr":"rate(fr_low_confidence_total[5m]) / rate(fr_predictions_total[5m])"}]},
+ {"id":3,"type":"timeseries","title":"Inference latency p95","gridPos":{"x":0,"y":8,"w":12,"h":8},"targets":[{"expr":"histogram_quantile(0.95, rate(fr_inference_seconds_bucket[5m]))"}]},
+ {"id":4,"type":"stat","title":"Errors","gridPos":{"x":12,"y":8,"w":12,"h":8},"targets":[{"expr":"fr_errors_total"}]}]}

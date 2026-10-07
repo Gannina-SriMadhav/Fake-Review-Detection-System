@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Veritas - Fake Review Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#070a16;--glass:rgba(255,255,255,.055);--glass2:rgba(255,255,255,.09);--line:rgba(255,255,255,.12);--text:#eef1ff;--muted:#9aa3c7;
+--a:#7c5cff;--b:#22d3ee;--ok:#34e0a1;--bad:#ff5d73;--warn:#ffc15a;--shadow:0 20px 60px rgba(0,0,0,.45)}
+[data-theme=light]{--bg:#eef0fb;--glass:rgba(255,255,255,.7);--glass2:rgba(255,255,255,.95);--line:rgba(30,40,90,.12);--text:#161b36;--muted:#5c6690;
+--a:#5b3df5;--b:#0891b2;--ok:#0f9d6a;--bad:#e0334f;--warn:#c27a00;--shadow:0 20px 50px rgba(40,50,120,.15)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font:15px/1.6 Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+.aurora{position:fixed;inset:0;z-index:-1;overflow:hidden}
+.aurora i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;animation:float 18s ease-in-out infinite}
+.aurora i:nth-child(1){width:520px;height:520px;background:var(--a);top:-140px;left:-100px}
+.aurora i:nth-child(2){width:460px;height:460px;background:var(--b);bottom:-160px;right:-80px;animation-delay:-6s;opacity:.4}
+.aurora i:nth-child(3){width:340px;height:340px;background:#ff4fd8;top:40%;left:55%;animation-delay:-11s;opacity:.25}
+[data-theme=light] .aurora i{opacity:.28}
+@keyframes float{50%{transform:translate(60px,40px) scale(1.12)}}
+.aurora:after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);background-size:26px 26px;mask-image:radial-gradient(circle at 50% 30%,#000,transparent 75%)}
+header{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:16px;padding:12px clamp(16px,4vw,40px);backdrop-filter:blur(18px);background:color-mix(in srgb,var(--bg) 55%,transparent);border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:10px;font:700 19px "Space Grotesk",sans-serif;letter-spacing:.3px}
+.logo b{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,var(--a),var(--b));box-shadow:0 0 24px color-mix(in srgb,var(--a) 60%,transparent);color:#fff;font-size:17px}
+nav{display:flex;gap:2px;margin-left:auto;background:var(--glass);border:1px solid var(--line);padding:4px;border-radius:12px}
+nav button{background:none;border:0;color:var(--muted);padding:7px 16px;border-radius:9px;cursor:pointer;font:600 13px Inter;transition:.25s}
+nav button:hover{color:var(--text)}nav button.on{background:linear-gradient(135deg,var(--a),var(--b));color:#fff;box-shadow:0 4px 18px color-mix(in srgb,var(--a) 50%,transparent)}
+#theme{background:var(--glass);border:1px solid var(--line);color:var(--text);border-radius:10px;width:36px;height:36px;cursor:pointer}
+main{max-width:1020px;margin:0 auto;padding:0 clamp(14px,3vw,24px) 60px}
+.hero{text-align:center;padding:54px 0 30px}
+.eyebrow{display:inline-block;font:600 12px Inter;letter-spacing:2px;text-transform:uppercase;color:var(--b);border:1px solid color-mix(in srgb,var(--b) 40%,transparent);padding:5px 14px;border-radius:99px;background:color-mix(in srgb,var(--b) 10%,transparent)}
+h1.t{font:700 clamp(34px,6vw,64px)/1.05 "Space Grotesk",sans-serif;margin:18px 0 14px;letter-spacing:-1.5px}
+.grad{background:linear-gradient(100deg,var(--a),var(--b) 55%,#ff4fd8);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200%;animation:shine 7s linear infinite}
+@keyframes shine{to{background-position:200% 0}}
+.hero p{max-width:620px;margin:0 auto;color:var(--muted);font-size:17px}
+.glass{background:var(--glass);border:1px solid var(--line);border-radius:20px;padding:22px;margin-bottom:18px;backdrop-filter:blur(16px);box-shadow:var(--shadow);animation:rise .5s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}}
+h2{font:700 20px "Space Grotesk",sans-serif;margin:0 0 4px}.sub{color:var(--muted);font-size:13.5px;margin:0 0 14px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;counter-reset:s}
+.step{position:relative;padding:16px;border-radius:16px;background:var(--glass2);border:1px solid var(--line);transition:.3s}
+.step:hover{transform:translateY(-4px);border-color:var(--a)}
+.step:before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:28px;height:28px;border-radius:9px;background:linear-gradient(135deg,var(--a),var(--b));color:#fff;font-weight:700;font-size:13px;margin-bottom:10px}
+.step b{display:block;margin-bottom:2px}.step span{color:var(--muted);font-size:13px}
+.note{display:flex;gap:10px;margin-top:14px;padding:12px 14px;border-radius:12px;background:color-mix(in srgb,var(--warn) 12%,transparent);border:1px solid color-mix(in srgb,var(--warn) 35%,transparent);font-size:13px}
+textarea{width:100%;min-height:140px;resize:vertical;padding:16px;border-radius:14px;border:1px solid var(--line);background:var(--glass2);color:var(--text);font:15px/1.6 Inter;outline:none;transition:.25s}
+textarea:focus{border-color:var(--a);box-shadow:0 0 0 4px color-mix(in srgb,var(--a) 22%,transparent)}
+select{padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--glass2);color:var(--text);font:500 13px Inter;max-width:100%}
+.bar-row{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-top:12px}
+.muted{color:var(--muted);font-size:13px}
+.cta{position:relative;border:0;cursor:pointer;color:#fff;font:700 15px Inter;padding:13px 30px;border-radius:14px;background:linear-gradient(135deg,var(--a),var(--b));box-shadow:0 8px 30px color-mix(in srgb,var(--a) 55%,transparent);transition:.25s}
+.cta:hover{transform:translateY(-2px) scale(1.02)}.cta:disabled{opacity:.6;cursor:wait;transform:none}
+.ghost{background:var(--glass);border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:10px;cursor:pointer;font:600 13px Inter}
+/* model picker */
+.picker{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:6px 0 4px}
+.mc{cursor:pointer;text-align:left;padding:14px;border-radius:16px;border:1px solid var(--line);background:var(--glass2);color:var(--text);font:inherit;transition:.25s;position:relative}
+.mc:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--a) 70%,transparent)}
+.mc.sel{border-color:var(--a);background:color-mix(in srgb,var(--a) 16%,var(--glass2));box-shadow:0 0 0 1px var(--a),0 10px 30px color-mix(in srgb,var(--a) 28%,transparent)}
+.mc b{display:block;font-size:14px}.mc small{display:block;color:var(--muted);font-size:12px;line-height:1.45;margin:4px 0 8px}
+.tag{display:inline-block;font:700 10px Inter;letter-spacing:.8px;text-transform:uppercase;padding:2px 8px;border-radius:99px;background:linear-gradient(135deg,var(--a),var(--b));color:#fff;margin-bottom:6px}
+.tag.alt{background:var(--glass);color:var(--muted);border:1px solid var(--line)}
+.stat{font-size:11.5px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap}.stat em{font-style:normal;color:var(--text);font-weight:600}
+.guide{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:12px}
+.guide div{padding:11px 13px;border-radius:12px;background:var(--glass2);border:1px solid var(--line);font-size:13px}.guide b{color:var(--b)}
+/* result */
+.res{display:grid;grid-template-columns:230px 1fr;gap:22px;align-items:center}
+@media(max-width:640px){.res{grid-template-columns:1fr;justify-items:center;text-align:center}nav button{padding:7px 10px}}
+.gauge{position:relative;width:200px;height:200px}.gauge svg{transform:rotate(-90deg);filter:drop-shadow(0 0 14px var(--gc))}
+.gauge .track{stroke:var(--line)}.gauge .val{stroke:var(--gc);stroke-linecap:round;transition:stroke-dashoffset 1.1s cubic-bezier(.2,.8,.2,1)}
+.gauge div{position:absolute;inset:0;display:grid;place-content:center;text-align:center}.gauge b{font:700 38px "Space Grotesk"}.gauge span{font-size:12px;color:var(--muted)}
+.verdict{font:800 clamp(34px,6vw,52px)/1 "Space Grotesk";letter-spacing:1px;text-shadow:0 0 36px var(--gc)}
+.pill{display:inline-block;padding:3px 12px;border-radius:99px;font:700 11px Inter;letter-spacing:.8px;border:1px solid currentColor}
+.ok{color:var(--ok)}.bad{color:var(--bad)}.warnc{color:var(--warn)}.hidden{display:none}
+.warn{margin:14px 0 0;padding:12px 14px;border-radius:12px;background:color-mix(in srgb,var(--warn) 13%,transparent);border:1px solid color-mix(in srgb,var(--warn) 40%,transparent);font-size:13.5px;text-align:left}
+.pbar{height:10px;border-radius:6px;background:var(--line);overflow:hidden;margin:4px 0 10px}.pbar i{display:block;height:100%;border-radius:6px;width:0;transition:width 1s cubic-bezier(.2,.8,.2,1)}
+table{width:100%;border-collapse:collapse;font-size:13.5px}th,td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:left}th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.6px}
+.cons{display:flex;gap:6px;margin:8px 0}.cons i{flex:1;height:10px;border-radius:5px}
+.eff{display:grid;grid-template-columns:110px 1fr 60px;gap:8px;align-items:center;font-size:13px;margin:3px 0}.eff .b{height:8px;border-radius:4px;transition:width .9s}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}.kpi{padding:12px;border-radius:14px;background:var(--glass2);border:1px solid var(--line)}.kpi b{display:block;font:700 22px "Space Grotesk"}
+.dots span{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--b);margin:0 2px;animation:dot 1s infinite}.dots span:nth-child(2){animation-delay:.15s}.dots span:nth-child(3){animation-delay:.3s}
+@keyframes dot{50%{transform:translateY(-6px);opacity:.4}}
+details summary{cursor:pointer;color:var(--b);font-weight:600;margin:8px 0}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:10px 0 40px}
+</style>
+</head>
+<body>
+<div class="aurora"><i></i><i></i><i></i></div>
+<header>
+  <div class="logo"><b>V</b>Veritas</div>
+  <nav id="nav"></nav>
+  <button id="theme" title="Toggle theme">◐</button>
+</header>
+<main>
+
+<section id="analyze">
+  <div class="hero">
+    <span class="eyebrow">AI review authenticity analysis</span>
+    <h1 class="t">Is that review <span class="grad">real</span>?</h1>
+    <p>Paste any product review. Veritas estimates how closely it resembles genuine or fake writing, shows how sure it is, and explains why.</p>
+  </div>
+
+  <div class="glass">
+    <h2>How it works</h2><p class="sub">Four steps, usually under half a second.</p>
+    <div class="steps">
+      <div class="step"><b>You paste a review</b><span>The text is cleaned (HTML, spacing) but your wording, punctuation and style are kept - they are clues.</span></div>
+      <div class="step"><b>Models read the writing</b><span>Each model looks at word choice, phrases, character patterns and style, and compares them with ~40,000 reviews it was taught from.</span></div>
+      <div class="step"><b>Confidence is calibrated</b><span>The raw score is corrected so "80%" really means about 80% of such cases were right on test data. No fake precision.</span></div>
+      <div class="step"><b>You get the evidence</b><span>The verdict, a confidence level, which words pushed it each way, and a check for near-copies of known reviews.</span></div>
+    </div>
+    <div class="note"><span>🛡️</span><span><b>Read this once:</b> the result is a statistical <i>estimate</i>, never proof. Short or unusual reviews give weak evidence and are flagged LOW confidence. The model was taught to tell computer-generated reviews from human ones, so it isn't validated on paid human fakes.</span></div>
+  </div>
+
+  <div class="glass">
+    <h2>1 · Choose how to analyze <span class="muted">(not sure? keep "Auto")</span></h2>
+    <p class="sub">You don't need to know machine learning. Each card says what the model is good at, with its measured accuracy and speed from our own tests.</p>
+    <div class="picker" id="picker"></div>
+    <div class="guide">
+      <div><b>New here?</b> Use <b>Auto</b>. It runs the model that scored best on data it never trained on.</div>
+      <div><b>Result feels borderline?</b> Run <b>Compare all</b>. If the models disagree, treat the review as uncertain.</div>
+      <div><b>Checking thousands of rows?</b> Pick a fast model (Logistic Regression or Naive Bayes) in the Batch tab.</div>
+    </div>
+  </div>
+
+  <div class="glass">
+    <h2>2 · Paste a review</h2>
+    <div class="bar-row" style="margin:0 0 10px"><select id="demo"><option value="">Try a demo example (text only, result is live)…</option></select><span class="muted" id="counts">0 characters · 0 words · 0 sentences</span></div>
+    <textarea id="text" maxlength="5000" placeholder="Paste your review here..."></textarea>
+    <div class="bar-row"><span class="muted" id="status"></span><button class="cta" id="go">Analyze Review →</button></div>
+  </div>
+  <div id="result"></div>
+</section>
+
+<section id="batch" class="hidden">
+  <div class="hero" style="padding-bottom:10px"><h1 class="t" style="font-size:42px">Batch <span class="grad">analysis</span></h1><p>Upload a CSV, analyze every review, download the results.</p></div>
+  <div class="glass"><input type="file" id="file" accept=".csv" style="color:var(--muted)">
+    <div class="bar-row"><select id="col"></select><select id="bmodel"></select><button class="cta" id="run" disabled>Run batch</button></div>
+    <div class="muted" id="bstatus" style="margin-top:8px">Max 5,000 rows. Output adds prediction, confidence, level, model, sentiment, similarity.</div></div>
+  <div id="bout"></div>
+</section>
+
+<section id="models" class="hidden"><div class="hero" style="padding-bottom:10px"><h1 class="t" style="font-size:42px">Model <span class="grad">report card</span></h1><p>Every number below was measured on reviews the models never saw during training.</p></div><div id="mout" class="glass muted">Loading…</div></section>
+<section id="monitor" class="hidden"><div class="hero" style="padding-bottom:10px"><h1 class="t" style="font-size:42px">Live <span class="grad">monitor</span></h1><p>Watches for the data changing so the model is not trusted blindly.</p></div><div id="monout" class="glass muted">Loading…</div></section>
+</main>
+<footer>Veritas · Model predictions are automated estimates, not proof that a review is fraudulent.</footer>
+
+<script>
+const $=s=>document.querySelector(s),esc=t=>String(t??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const DEMOS={"Simple review":"Good product, works well.","Very short review":"Good.",
+"Detailed review":"I bought this blender three weeks ago to replace an older one. The motor is noticeably quieter, but the lid seal leaked a little the first time I made hot soup, so I now fill it only halfway. Cleaning is easy.",
+"Promotional-sounding":"Absolutely amazing!!! Best product ever!!! Everyone must buy this now, you will not regret it!!!",
+"Ambiguous":"It does what it says. Not much else to add, I guess."};
+const pct=x=>(x*100).toFixed(1)+'%',LV={HIGH:'ok',MEDIUM:'warnc',LOW:'bad'},COL={GENUINE:'var(--ok)',FAKE:'var(--bad)'};
+async function api(p,o){let r;try{r=await fetch(p,o)}catch(e){throw new Error('Cannot reach the API.')}
+  const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(Array.isArray(d.detail)?d.detail.join('; '):(d.detail||'Request failed'));return d}
+const post=(p,b)=>api(p,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(b)});
+
+const TABS={analyze:'Analyze',batch:'Batch',models:'Models',monitor:'Monitor'};
+$('#nav').innerHTML=Object.entries(TABS).map(([k,v])=>`<button data-t="${k}">${v}</button>`).join('');
+function show(t){for(const k in TABS)$('#'+k).classList.toggle('hidden',k!==t);
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
+  if(t==='models')loadModels();if(t==='monitor')loadMonitor();history.replaceState(null,'','#'+t);scrollTo(0,0)}
+$('#nav').onclick=e=>e.target.dataset.t&&show(e.target.dataset.t);
+const setTheme=t=>{document.documentElement.dataset.theme=t;try{localStorage.theme=t}catch(e){}};
+setTheme((()=>{try{return localStorage.theme}catch(e){}})()||'dark');
+$('#theme').onclick=()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark');
+
+// ---- model picker
+let MODELS=[],SEL='auto';
+function f1(m){return m.test_f1_fake==null?'n/a':m.test_f1_fake.toFixed(3)}
+function renderPicker(){const def=MODELS.find(m=>m.is_default);
+  const cards=[{key:'auto',tag:'Recommended',nick:'Auto',desc:`Runs the model that scored best on unseen validation data${def?` (currently ${esc(def.nickname)})`:''}. The safe choice if you're unsure.`,f:def?f1(def):'n/a',ms:def&&def.ms_per_review!=null?def.ms_per_review.toFixed(1):'n/a'},
+    {key:'compare',tag:'Second opinion',nick:'Compare all',desc:'Runs every model and shows how many agree. Disagreement means the review is genuinely hard to call.'},
+    ...MODELS.map(m=>({key:m.key,nick:m.nickname,name:m.name,desc:m.description,best:m.best_for,f:f1(m),ms:m.ms_per_review!=null?m.ms_per_review.toFixed(1):'n/a',tag:m.is_default?'Top scorer':''}))];
+  $('#picker').innerHTML=cards.map(c=>`<button class="mc ${c.key===SEL?'sel':''}" data-k="${c.key}">
+    ${c.tag?`<span class="tag ${c.key==='compare'?'alt':''}">${c.tag}</span>`:''}<b>${esc(c.nick)}</b>${c.name?`<span class="muted" style="font-size:11px">${esc(c.name)}</span>`:''}
+    <small>${esc(c.desc)}${c.best?`<br><i>Best for: ${esc(c.best)}</i>`:''}</small>
+    ${c.f?`<div class="stat"><span>Accuracy score (F1) <em>${c.f}</em></span><span>Speed <em>${c.ms} ms</em></span></div>`:''}</button>`).join('');}
+$('#picker').onclick=e=>{const b=e.target.closest('.mc');if(!b)return;SEL=b.dataset.k;renderPicker()};
+async function init(){try{MODELS=await api('/models');renderPicker();
+  $('#bmodel').innerHTML=`<option value="auto">Auto (recommended)</option>`+MODELS.map(m=>`<option value="${m.key}">${esc(m.nickname)} - ${esc(m.name)}</option>`).join('')}
+  catch(e){$('#picker').innerHTML=`<div class="muted">${esc(e.message)} Train a model first: <code>python -m src.models.train</code></div>`}}
+
+// ---- analyze
+Object.keys(DEMOS).forEach(k=>$('#demo').insertAdjacentHTML('beforeend',`<option>${k}</option>`));
+$('#demo').onchange=e=>{if(DEMOS[e.target.value]){$('#text').value=DEMOS[e.target.value];count()}};
+function count(){const t=$('#text').value,w=t.trim()?t.trim().split(/\s+/).length:0,s=t.trim()?Math.max(1,(t.match(/[.!?]+/g)||[]).length):0;
+  $('#counts').textContent=`${t.length.toLocaleString()} characters · ${w} words · ${s} sentences`}
+$('#text').oninput=count;
+$('#go').onclick=async()=>{const text=$('#text').value.trim();if(!text){$('#status').textContent='Please paste a review first.';return}
+  $('#go').disabled=true;$('#result').innerHTML='';const st=$('#status');
+  try{st.innerHTML='Analyzing linguistic patterns <span class="dots"><span></span><span></span><span></span></span>';await new Promise(r=>setTimeout(r,250));
+    st.innerHTML='Running model inference <span class="dots"><span></span><span></span><span></span></span>';
+    const cmp=SEL==='compare';
+    const p=post('/predict',{review:text,model:cmp?'auto':SEL});const c=cmp?post('/predict/compare',{review:text}):Promise.resolve(null);
+    const [r,cm]=await Promise.all([p,c]);st.innerHTML='Generating explanation…';await new Promise(r=>setTimeout(r,150));st.textContent='';
+    render(r,cm);$('#result').scrollIntoView({behavior:'smooth',block:'start'})}
+  catch(e){st.textContent='';$('#result').innerHTML=`<div class="glass bad">${esc(e.message)}</div>`}
+  $('#go').disabled=false};
+function render(r,cmp){const lab=r.prediction,s=r.statistics,sim=r.similarity,c=r.contributions||{},gc=COL[lab];
+  const eff=[...(c.toward_fake||[]),...(c.toward_genuine||[])].sort((a,b)=>b.effect-a.effect),mx=Math.max(.001,...eff.map(e=>Math.abs(e.effect)));
+  const R=88,C=2*Math.PI*R;
+  let cons='';if(cmp){const n=cmp.results.length,k=cmp.results.filter(m=>m.prediction===lab).length;
+    cons=`<div class="glass"><h2>Model consensus</h2><p class="sub">${k} of ${n} models agree with the verdict above.</p>
+    <div class="cons">${cmp.results.map(m=>`<i style="background:${m.prediction==='FAKE'?'var(--bad)':'var(--ok)'}" title="${esc(m.model)}"></i>`).join('')}</div>
+    <table><tr><th>Model</th><th>Verdict</th><th>Confidence</th></tr>${cmp.results.map(m=>`<tr><td>${esc(m.model)}${m.is_default?' ★':''}</td><td class="${m.prediction==='FAKE'?'bad':'ok'}"><b>${m.prediction}</b></td><td>${pct(m.confidence)}</td></tr>`).join('')}</table>
+    <p class="muted" style="margin:10px 0 0">${k===n?'Every model agrees - a more dependable result (still an estimate).':k>=n/2?'Most models agree, but not all - treat with some caution.':'The models are split - this review is hard to call; do not rely on one verdict.'}</p></div>`}
+  $('#result').innerHTML=`<div class="glass" style="--gc:${gc}"><div class="res">
+    <div class="gauge"><svg width="200" height="200" viewBox="0 0 200 200"><circle class="track" cx="100" cy="100" r="${R}" fill="none" stroke-width="14"/><circle class="val" id="ring" cx="100" cy="100" r="${R}" fill="none" stroke-width="14" stroke-dasharray="${C}" stroke-dashoffset="${C}"/></svg>
+      <div><b>${(r.confidence*100).toFixed(1)}%</b><span>confidence</span></div></div>
+    <div><div class="muted">MODEL PREDICTION</div><div class="verdict" style="color:${gc}">${lab==='GENUINE'?'✓':'⚠'} ${lab}</div>
+      <p style="margin:8px 0"><span class="pill ${LV[r.confidence_level]}">${r.confidence_level} CONFIDENCE</span> <span class="muted">&nbsp;${esc(r.model)} · ${r.processing_time_ms.toFixed(0)} ms</span></p>
+      ${['GENUINE','FAKE'].map(k=>`<div style="display:flex;justify-content:space-between;font-size:13px"><span>${k}</span><span>${pct(r.probabilities[k])}</span></div><div class="pbar"><i data-w="${r.probabilities[k]*100}" style="background:${COL[k]}"></i></div>`).join('')}
+    </div></div>
+    ${r.warning?`<div class="warn">⚠️ ${esc(r.warning)}</div>`:''}</div>
+  ${cons}
+  <div class="glass"><h2>Why did the model predict this?</h2><p class="sub">Signals that contributed to the model's prediction. They are evidence, not proof.</p>
+    <ul style="margin:0 0 12px;padding-left:20px">${r.explanation.map(l=>`<li>${esc(l)}</li>`).join('')}</ul>
+    ${eff.map(e=>`<div class="eff"><span>${esc(e.token)}</span><div><div class="b" data-w="${Math.abs(e.effect)/mx*100}" style="width:0;background:${e.effect>0?'var(--bad)':'var(--ok)'}"></div></div><span class="muted">${e.effect>0?'+':''}${e.effect.toFixed(3)}</span></div>`).join('')}
+    ${eff.length?`<p class="muted" style="margin:10px 0 0">Bars show how P(FAKE) changes when that word is removed: red pushes toward FAKE, green toward GENUINE.</p>`:''}</div>
+  <div class="glass"><h2>Review statistics</h2><div class="grid" style="margin-top:10px">${[['Words',s.word_count],['Characters',s.char_count],['Sentences',s.sentence_count],['Sentiment',s.sentiment],['Lexical diversity',s.lexical_diversity]].map(([k,v])=>`<div class="kpi"><span class="muted">${k}</span><b>${v}</b></div>`).join('')}</div></div>
+  <div class="glass"><h2>Similarity analysis</h2><p style="margin:6px 0 0">${sim.warning?`⚠️ Potentially ${sim.level.replace('_',' ').toLowerCase()} review detected (cosine ${sim.max_similarity.toFixed(2)}).<br><span class="muted">"${esc(sim.closest_text)}"<br>A supporting signal only - it never changes the verdict.</span>`:`No strong match found (max cosine ${sim.max_similarity.toFixed(2)}).`}</p></div>`;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{$('#ring').style.strokeDashoffset=C*(1-r.confidence);document.querySelectorAll('[data-w]').forEach(e=>e.style.width=e.dataset.w+'%')}))}
+
+// ---- batch
+let rows=[],hdr=[],outRows=[];
+function parseCSV(t){const out=[];let r=[],f='',q=false;for(let i=0;i<t.length;i++){const c=t[i];
+  if(q){if(c==='"'){if(t[i+1]==='"'){f+='"';i++}else q=false}else f+=c}else if(c==='"')q=true;else if(c===','){r.push(f);f=''}
+  else if(c==='\n'||c==='\r'){if(c==='\r'&&t[i+1]==='\n')i++;r.push(f);f='';out.push(r);r=[]}else f+=c}
+  if(f||r.length){r.push(f);out.push(r)}return out.filter(x=>x.some(v=>v.trim()))}
+$('#file').onchange=async e=>{const f=e.target.files[0];if(!f)return;
+  try{const all=parseCSV(await f.text());if(all.length<2)throw new Error('The CSV needs a header and at least one row.');
+    hdr=all[0];rows=all.slice(1,5001);$('#col').innerHTML=hdr.map((h,i)=>`<option value="${i}">${esc(h)}</option>`).join('');
+    const g=hdr.findIndex(h=>/^(review|text_?|review_text)$/i.test(h.trim()));$('#col').value=g<0?0:g;$('#run').disabled=false;$('#bstatus').textContent=`${rows.length} rows loaded - choose the review column.`}
+  catch(err){$('#bstatus').textContent=err.message;$('#run').disabled=true}};
+$('#run').onclick=async()=>{const ci=+$('#col').value,texts=[];rows.forEach(r=>{const t=(r[ci]||'').trim();if(t)texts.push(t.slice(0,5000))});
+  if(!texts.length){$('#bstatus').textContent='No non-empty reviews in that column.';return}
+  $('#run').disabled=true;const res=[];let model='';
+  try{for(let i=0;i<texts.length;i+=400){$('#bstatus').textContent=`Analyzing ${Math.min(i+400,texts.length)}/${texts.length}…`;
+    const o=await post('/predict/batch',{reviews:texts.slice(i,i+400),model:$('#bmodel').value});model=o.model;res.push(...o.results)}
+    outRows=res.map((r,k)=>({review:texts[k],prediction:r.prediction,confidence:r.confidence,confidence_level:r.confidence_level,model,sentiment:r.sentiment,similarity_score:r.similarity_score}));
+    const nf=res.filter(r=>r.prediction==='FAKE').length,nl=res.filter(r=>r.confidence_level==='LOW').length;$('#bstatus').textContent='Done.';
+    $('#bout').innerHTML=`<div class="glass"><div class="grid">${[['Analysed',res.length],['Predicted FAKE',nf],['Predicted GENUINE',res.length-nf],['Low confidence',nl]].map(([k,v])=>`<div class="kpi"><span class="muted">${k}</span><b>${v}</b></div>`).join('')}</div>
+      <p><button class="cta" id="dl">Download CSV</button></p><table><tr><th>Review</th><th>Prediction</th><th>Conf.</th><th>Level</th></tr>${outRows.slice(0,50).map(r=>`<tr><td>${esc(r.review.slice(0,80))}</td><td class="${r.prediction==='FAKE'?'bad':'ok'}">${r.prediction}</td><td>${pct(r.confidence)}</td><td>${r.confidence_level}</td></tr>`).join('')}</table>
+      <p class="muted">${res.length>50?'Showing first 50 - download for all.':''}</p></div>`;
+    $('#dl').onclick=()=>{const H=Object.keys(outRows[0]),q=v=>'"'+String(v).replace(/"/g,'""')+'"';
+      const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([[H.join(','),...outRows.map(r=>H.map(h=>q(r[h])).join(','))].join('\n')],{type:'text/csv'}));a.download='review_predictions.csv';a.click()}}
+  catch(err){$('#bstatus').textContent=err.message}$('#run').disabled=false};
+
+// ---- models report (numbers come from reports/evaluation.json)
+async function loadModels(){try{const rep=await api('/performance'),cm=rep.comparison,def=rep.meta.model_key,ea=rep.error_analysis,f=v=>v==null?'-':v.toFixed(3);
+  $('#mout').className='';$('#mout').style.background='none';$('#mout').style.border='0';$('#mout').style.boxShadow='none';$('#mout').style.padding='0';
+  $('#mout').innerHTML=`<div class="glass"><h2>Scoreboard</h2><p class="sub">Held-out test set: ${rep.meta.n_test.toLocaleString()} reviews · "fake" is the positive class · ★ = default (best F1 on the validation split)</p>
+    <table><tr><th>Model</th><th>Accuracy</th><th>Precision</th><th>Recall</th><th>F1</th><th>ROC-AUC</th><th>ms/review</th></tr>
+    ${Object.entries(cm).map(([k,v])=>`<tr><td>${esc(v.display_name)}${k===def?' ★':''}</td><td>${f(v.test.accuracy)}</td><td>${f(v.test.precision_fake)}</td><td>${f(v.test.recall_fake)}</td><td><b>${f(v.test.f1_fake)}</b></td><td>${f(v.test.roc_auc)}</td><td>${v.inference_ms_per_review.toFixed(1)}</td></tr>`).join('')}</table>
+    <p class="muted" style="margin:10px 0 0"><b>Precision</b>: of reviews flagged FAKE, how many truly were. <b>Recall</b>: of all fakes, how many were caught. <b>F1</b> balances the two.</p></div>
+  <div class="glass"><h2>Mistakes & calibration</h2><p class="sub">FP = genuine flagged FAKE · FN = fake passed as GENUINE · Brier/ECE: lower = more trustworthy percentages</p>
+    <table><tr><th>Model</th><th>TN</th><th>FP</th><th>FN</th><th>TP</th><th>Brier</th><th>ECE</th></tr>${Object.values(cm).map(v=>`<tr><td>${esc(v.display_name)}</td><td>${v.test.confusion.tn}</td><td>${v.test.confusion.fp}</td><td>${v.test.confusion.fn}</td><td>${v.test.confusion.tp}</td><td>${f(v.test.brier)}</td><td>${f(v.test.ece)}</td></tr>`).join('')}</table></div>
+  <div class="glass"><h2>Error analysis · ${esc(cm[def].display_name)}</h2><p>${ea.n_false_positive} false positives, ${ea.n_false_negative} false negatives. Mean confidence when right ${pct(ea.mean_confidence_correct)}, when wrong ${ea.mean_confidence_errors==null?'n/a':pct(ea.mean_confidence_errors)}.</p>
+    <table><tr><th>Words</th><th>Reviews</th><th>Error rate</th></tr>${Object.entries(ea.error_rate_by_length).map(([k,v])=>`<tr><td>${esc(k)}</td><td>${v.n}</td><td>${v.error_rate==null?'-':pct(v.error_rate)}</td></tr>`).join('')}</table>
+    <details><summary>False positives (genuine flagged FAKE)</summary>${ea.false_positives.map(x=>`<p class="muted">P(fake) ${x.p_fake}: ${esc(x.text)}</p>`).join('')}</details>
+    <details><summary>False negatives (fake passed as GENUINE)</summary>${ea.false_negatives.map(x=>`<p class="muted">P(fake) ${x.p_fake}: ${esc(x.text)}</p>`).join('')}</details></div>`}
+  catch(e){$('#mout').textContent='Not evaluated yet. '+e.message}}
+async function loadMonitor(){try{const d=await api('/monitoring/drift'),a=await api('/analytics'),c={OK:'ok',DRIFT:'bad',INSUFFICIENT_DATA:'warnc'}[d.status];
+  $('#monout').className='';$('#monout').style.cssText='background:none;border:0;box-shadow:none;padding:0';
+  $('#monout').innerHTML=`<div class="glass"><span class="pill ${c}">${d.status.replace('_',' ')}</span> &nbsp;${esc(d.message)}<p class="muted" style="margin:8px 0 0">${d.n_current} logged predictions. Drift only raises a flag - retraining stays a manual decision.</p></div>
+  ${a.total?`<div class="glass"><div class="grid">${[['Analysed',a.total],['Genuine',a.genuine],['Fake',a.fake],['Avg confidence',pct(a.avg_confidence)],['Low confidence',a.low_confidence],['Avg ms',a.avg_latency_ms.toFixed(1)]].map(([k,v])=>`<div class="kpi"><span class="muted">${k}</span><b>${v}</b></div>`).join('')}</div></div>`:''}
+  ${d.features&&d.features.length?`<div class="glass"><table><tr><th>Feature</th><th>PSI</th><th>KS p-value</th><th>Drift</th></tr>${d.features.map(f=>`<tr><td>${f.feature}</td><td>${f.psi}</td><td>${f.ks_pvalue.toExponential(1)}</td><td class="${f.drift?'bad':'ok'}">${f.drift?'yes':'no'}</td></tr>`).join('')}</table></div>`:''}`}
+  catch(e){$('#monout').textContent=e.message}}
+
+init();show(TABS[location.hash.slice(1)]?location.hash.slice(1):'analyze');
+</script>
+</body>
+</html>

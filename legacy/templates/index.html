@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake Review Detection System - AI Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="app-layout">
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="sidebar">
+            <div class="sidebar-top">
+                <div class="brand">
+                    <div class="brand-logo">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            <path d="m9 12 2 2 4-4"></path>
+                        </svg>
+                    </div>
+                    <span class="brand-name">Fake Review Detection</span>
+                </div>
+
+                <nav class="nav-menu">
+                    <a href="#home" class="nav-item active">
+                        <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                        <span>Home</span>
+                    </a>
+
+                    <a href="#" onclick="openAboutModal(); return false;" class="nav-item">
+                        <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                        <span>About</span>
+                    </a>
+
+                    <a href="#" onclick="openContactModal(); return false;" class="nav-item">
+                        <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                        <span>Contact</span>
+                    </a>
+
+                    <a href="#" onclick="openSettingsModal(); return false;" class="nav-item">
+                        <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                        <span>Settings</span>
+                    </a>
+                </nav>
+            </div>
+
+            <div class="sidebar-bottom">
+                {% if username %}
+                <a href="{{ url_for('logout') }}" class="nav-item logout-link">
+                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    <span>Logout</span>
+                </a>
+                {% else %}
+                <a href="{{ url_for('login') }}" class="nav-item logout-link">
+                    <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                        <polyline points="10 17 15 12 10 7"></polyline>
+                        <line x1="15" y1="12" x2="3" y2="12"></line>
+                    </svg>
+                    <span>Login</span>
+                </a>
+                {% endif %}
+            </div>
+        </aside>
+
+        <!-- MAIN DASHBOARD CONTENT AREA -->
+        <main class="main-content">
+            <!-- TOP BAR HEADER -->
+            <header class="top-header">
+                <div class="header-titles">
+                    <h1 class="page-title">Fake Review Detection Dashboard</h1>
+                    <p class="page-subtitle">Analyze product and service reviews using AI & machine learning</p>
+                </div>
+
+                <div class="header-actions">
+                    <button class="icon-btn" title="Contact Admin" onclick="openContactModal()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                    </button>
+
+                    <button class="icon-btn" title="Settings" onclick="openSettingsModal()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                    </button>
+
+                    {% if username %}
+                    <!-- LOGGED IN USER PROFILE CHIP -->
+                    <div class="logged-user-chip">
+                        <div class="user-avatar-initials">
+                            {{ username[0]|upper }}
+                        </div>
+                        <span class="user-chip-name">{{ username }}</span>
+                        <a href="{{ url_for('logout') }}" class="chip-logout-btn" title="Logout">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                <polyline points="16 17 21 12 16 7"></polyline>
+                                <line x1="21" y1="12" x2="9" y2="12"></line>
+                            </svg>
+                        </a>
+                    </div>
+                    {% else %}
+                    <!-- GUEST LOGIN BUTTON -->
+                    <a href="{{ url_for('login') }}" class="login-action-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <span>Login / Register</span>
+                    </a>
+                    {% endif %}
+                </div>
+            </header>
+
+            <div class="dashboard-body">
+                <!-- FLASH NOTIFICATIONS -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="flash-container">
+                            {% for category, message in messages %}
+                                <div class="flash-alert flash-{{ category }}">
+                                    <span>{{ message }}</span>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                <!-- TOP 4 KPI CARDS ROW -->
+                <div class="kpi-grid">
+                    <!-- KPI Card 1: Total Reviews -->
+                    <div class="card kpi-card">
+                        <div class="kpi-content">
+                            <span class="kpi-label">Total Reviews Analyzed</span>
+                            <div class="kpi-value-row">
+                                <h2 class="kpi-value">{{ stats.total_articles }}</h2>
+                            </div>
+                            <span class="kpi-subtext positive">Total predictions</span>
+                        </div>
+                        <div class="kpi-icon-badge blue-badge">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                <line x1="10" y1="9" x2="8" y2="9"></line>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- KPI Card 2: Genuine Reviews -->
+                    <div class="card kpi-card">
+                        <div class="kpi-content">
+                            <span class="kpi-label">Genuine Reviews</span>
+                            <div class="kpi-value-row">
+                                <h2 class="kpi-value">{{ stats.real_count }}</h2>
+                            </div>
+                            <span class="kpi-subtext">{{ stats.real_pct }}</span>
+                        </div>
+                        <div class="kpi-icon-badge green-badge">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- KPI Card 3: Fake Reviews -->
+                    <div class="card kpi-card">
+                        <div class="kpi-content">
+                            <span class="kpi-label">Fake Reviews</span>
+                            <div class="kpi-value-row">
+                                <h2 class="kpi-value">{{ stats.fake_count }}</h2>
+                            </div>
+                            <span class="kpi-subtext">{{ stats.fake_pct }}</span>
+                        </div>
+                        <div class="kpi-icon-badge red-badge">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+                                <line x1="12" y1="9" x2="12" y2="13"></line>
+                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- KPI Card 4: Accuracy -->
+                    <div class="card kpi-card">
+                        <div class="kpi-content">
+                            <span class="kpi-label">Model Accuracy</span>
+                            <div class="kpi-value-row">
+                                <h2 class="kpi-value">{{ stats.accuracy }}</h2>
+                            </div>
+                            <span class="kpi-subtext">RoBERTa + TF-IDF</span>
+                        </div>
+                        <div class="kpi-icon-badge blue-badge">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                <path d="m9 12 2 2 4-4"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MIDDLE SECTION (2 COLUMNS) -->
+                <div class="middle-grid">
+                    <!-- ENTER REVIEW CARD -->
+                    <div class="card input-card" id="home">
+                        <div class="card-header-row">
+                            <h2 class="card-title">Enter Product or Service Review</h2>
+                        </div>
+                        
+                        <!-- Quick Sample Action Buttons -->
+                        <div class="sample-actions-bar" style="margin-bottom: 12px; display: flex; gap: 10px;">
+                            <button type="button" class="sample-btn genuine-sample-btn" onclick="fillSample('genuine')">
+                                ✨ Try Genuine Review Sample
+                            </button>
+                            <button type="button" class="sample-btn fake-sample-btn" onclick="fillSample('fake')">
+                                ⚠️ Try Fake Review Sample
+                            </button>
+                        </div>
+
+                        <form method="POST" action="/" class="article-form">
+                            <input type="hidden" name="threshold" id="hiddenThresholdInput" value="75">
+                            <textarea 
+                                id="reviewTextarea"
+                                name="review" 
+                                class="news-textarea" 
+                                placeholder="Paste product or service review text here..." 
+                                required>{{ input_text }}</textarea>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="submit-btn">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                    </svg>
+                                    <span>Analyze Review</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+
+                    <!-- PREDICTION RESULT HERO CARD -->
+                    <div class="card hero-result-card {% if has_prediction and not is_real %}fake-result{% endif %}">
+                        <div class="hero-bg-waves">
+                            <svg viewBox="0 0 500 200" preserveAspectRatio="none">
+                                <path d="M0,100 C150,200 350,0 500,100 L500,200 L0,200 Z" fill="rgba(255,255,255,0.06)"></path>
+                                <path d="M0,130 C200,80 300,180 500,120 L500,200 L0,200 Z" fill="rgba(255,255,255,0.08)"></path>
+                            </svg>
+                        </div>
+
+                        <span class="hero-subtitle">Prediction Result</span>
+
+                        <div class="hero-status-container">
+                            {% if not has_prediction %}
+                            <div class="hero-badge neutral-badge">
+                                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                </svg>
+                            </div>
+                            <h1 class="hero-prediction-label">Ready to Analyze</h1>
+                            {% elif prediction_label == 'Genuine Review' or prediction_label == 'Real News' %}
+                            <div class="hero-badge check-badge">
+                                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                            </div>
+                            <h1 class="hero-prediction-label">Genuine Review</h1>
+                            {% elif prediction_label == 'Suspicious Review' or prediction_label == 'Suspicious News' %}
+                            <div class="hero-badge warning-badge">
+                                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+                                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                </svg>
+                            </div>
+                            <h1 class="hero-prediction-label">Suspicious Review</h1>
+                            {% else %}
+                            <div class="hero-badge cross-badge">
+                                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </div>
+                            <h1 class="hero-prediction-label">Fake Review</h1>
+                            {% endif %}
+                        </div>
+
+
+                        <div class="hero-confidence-block">
+                            <h2 class="hero-confidence-val">{{ probability }}%</h2>
+                            <span class="hero-confidence-lbl">Confidence</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LOWER SECTION (2 COLUMNS) -->
+                <div class="lower-grid">
+                    <!-- RECENT PREDICTIONS TABLE -->
+                    <div class="card recent-card" id="history">
+                        <div class="card-header-row">
+                            <h2 class="card-title">Recent Predictions {% if username %}({{ username }}){% endif %}</h2>
+                            {% if history %}
+                            <button onclick="clearHistoryApi()" class="clear-btn-link">Clear History</button>
+                            {% endif %}
+                        </div>
+
+                        <div class="table-wrapper">
+                            <table class="recent-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Prediction</th>
+                                        <th>Confidence</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if history %}
+                                        {% for item in history %}
+                                        <tr>
+                                            <td class="id-cell">{{ item[0] }}</td>
+                                            <td>
+                                                {% if "Genuine" in item[1] or "Real" in item[1] %}
+                                                <span class="status-tag tag-real">Genuine Review</span>
+                                                {% elif "Suspicious" in item[1] %}
+                                                <span class="status-tag tag-warning">Suspicious Review</span>
+                                                {% else %}
+                                                <span class="status-tag tag-fake">Fake Review</span>
+                                                {% endif %}
+                                            </td>
+                                            <td class="conf-cell">{{ "%.2f"|format(item[2]) }}%</td>
+                                            <td class="date-cell">{{ item[3] }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="4" class="empty-table-cell">
+                                                No predictions recorded yet. Paste a review above to analyze!
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- PREDICTION DISTRIBUTION CHART -->
+                    <div class="card chart-card" id="analytics">
+                        <h2 class="card-title">Prediction Distribution</h2>
+                        <div class="chart-container">
+                            {% if pie_chart %}
+                                {{ pie_chart | safe }}
+                            {% else %}
+                                <div class="placeholder-chart">No distribution data available yet.</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ABOUT PREDICTOR MODAL -->
+    <div class="modal-overlay" id="aboutModal">
+        <div class="modal-card modal-lg">
+            <div class="modal-header">
+                <div class="about-title-block">
+                    <div class="about-icon-badge">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="card-title">About Fake Review Detection System</h3>
+                        <p class="about-subtitle">AI & Natural Language Processing Review Authenticity Engine</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeAboutModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="about-content-grid">
+                    <div class="about-info-box">
+                        <h4>🎯 Mission & Purpose</h4>
+                        <p>Fake Review Detection System is an AI platform designed to detect deceptive and fraudulent reviews on e-commerce platforms and online services. Using NLP techniques and Machine Learning (RoBERTa Transformer + TF-IDF), it analyzes sentiment, phrase repetition, and vocabulary patterns to classify reviews as Genuine or Fake.</p>
+                    </div>
+
+                    <div class="about-info-box">
+                        <h4>🤖 Machine Learning Architecture</h4>
+                        <p>Powered by a fine-tuned <strong>RoBERTa (Transformer)</strong> classifier paired with a <strong>TF-IDF N-gram classifier</strong> for syntactic feature extraction. The pipeline achieves high accuracy across product and service domains.</p>
+                    </div>
+
+                    <div class="about-info-box">
+                        <h4>📁 Datasets & Training</h4>
+                        <p>Trained on curated datasets of genuine and fraudulent product/service reviews (<code>Fake_Reviews.csv</code> & <code>Genuine_Reviews.csv</code>) across electronics, clothing, hospitality, and digital services.</p>
+                    </div>
+
+                    <div class="about-info-box">
+                        <h4>🔒 Analytics & Session Security</h4>
+                        <p>Includes user authentication, isolated user prediction history, Plotly analytical distribution charts, and SQLite database persistence.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary-styled" onclick="closeAboutModal()">Close</button>
+                <button type="button" class="submit-btn sm-btn" onclick="closeAboutModal(); openContactModal();">Contact Developer</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- CONTACT DEVELOPER MODAL -->
+    <div class="modal-overlay" id="contactModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Contact Administrator & Developer</h3>
+                <button class="modal-close-btn" onclick="closeContactModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="contact-links-list">
+                    <!-- PHONE CONTACT -->
+                    <div class="contact-link-item">
+                        <div class="contact-icon-box phone-box">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                            </svg>
+                        </div>
+                        <div class="contact-details">
+                            <span class="contact-label">Mobile Phone</span>
+                            <span class="contact-val">+91 8309969100</span>
+                        </div>
+                        <a href="tel:8309969100" class="copy-btn tel-btn">Call</a>
+                    </div>
+
+                    <!-- EMAIL CONTACT -->
+                    <div class="contact-link-item">
+                        <div class="contact-icon-box email-box">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                        </div>
+                        <div class="contact-details">
+                            <span class="contact-label">Email Support</span>
+                            <span class="contact-val">madhav.gannina21@gmail.com</span>
+                        </div>
+                        <button type="button" class="copy-btn" onclick="copyEmail()">Copy</button>
+                    </div>
+
+                    <!-- LINKEDIN CONTACT -->
+                    <a href="https://www.linkedin.com/in/madhavgannina/" target="_blank" rel="noopener noreferrer" class="contact-link-item external-link-item">
+                        <div class="contact-icon-box linkedin-box">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                                <rect x="2" y="9" width="4" height="12"></rect>
+                                <circle cx="4" cy="4" r="2"></circle>
+                            </svg>
+                        </div>
+                        <div class="contact-details">
+                            <span class="contact-label">LinkedIn Profile</span>
+                            <span class="contact-val">linkedin.com/in/madhavgannina/</span>
+                        </div>
+                        <span class="ext-arrow">&nearr;</span>
+                    </a>
+                </div>
+
+                <!-- DIRECT MESSAGE FORM -->
+                <form class="contact-admin-form" onsubmit="handleContactSubmit(event)">
+                    <h4 class="form-sub-title">Send Direct Message to Admin</h4>
+                    <input type="text" placeholder="Your Name or Subject" required class="contact-form-input">
+                    <textarea placeholder="Type your inquiry or issue here..." required class="news-textarea short-textarea"></textarea>
+                    <button type="submit" class="submit-btn full-btn-style">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                        <span>Send Message</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- WORKABLE SETTINGS MODAL -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Dashboard Settings</h3>
+                <button class="modal-close-btn" onclick="closeSettingsModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-item">
+                    <label class="setting-label">Confidence Threshold</label>
+                    <div class="slider-row">
+                        <input type="range" id="confidenceRange" min="50" max="95" value="75" oninput="updateSliderTrack(this.value)">
+                        <span id="thresholdVal" class="setting-val">75%</span>
+                    </div>
+                    <p class="setting-help-text">Drag slider to set classification sensitivity. Predictions under this confidence level will be flagged as <strong>Suspicious Review</strong>.</p>
+                </div>
+
+
+                <div class="setting-item">
+                    <label class="setting-label">Data Management</label>
+                    <div class="setting-actions">
+                        <button type="button" class="btn-danger-styled" onclick="clearHistoryApi()">Clear Prediction History</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary-styled" onclick="closeSettingsModal()">Close</button>
+                <button type="button" class="submit-btn sm-btn" onclick="saveSettings()">Save Preferences</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLOATING AI SUPPORT CHATBOT WIDGET -->
+    <div class="chatbot-widget">
+        <!-- CHAT TRIGGER BUTTON -->
+        <button class="chat-trigger-btn" onclick="toggleChatbot()" id="chatTriggerBtn">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span>AI Support</span>
+        </button>
+
+        <!-- CHAT WINDOW DRAWER -->
+        <div class="chat-window-card" id="chatWindow">
+            <div class="chat-header">
+                <div class="chat-bot-info">
+                    <div class="bot-avatar">🤖</div>
+                    <div>
+                        <h4>Truth Assistant</h4>
+                        <span class="online-indicator">Online • Quick Support</span>
+                    </div>
+                </div>
+                <button class="chat-close-btn" onclick="toggleChatbot()">&times;</button>
+            </div>
+
+            <!-- CHAT MESSAGES CONTAINER -->
+            <div class="chat-messages-body" id="chatMessages">
+                <div class="msg-bubble bot-msg">
+                    👋 Hello! I am your AI Review Assistant. Ask me anything about Fake Review detection, model accuracy, or click below to contact the administrator!
+                </div>
+            </div>
+
+            <!-- QUICK SUGGESTION CHIPS -->
+            <div class="chat-suggestions">
+                <button onclick="sendQuickMsg('How does it work?')">How it works?</button>
+                <button onclick="sendQuickMsg('What is the model accuracy?')">Model Accuracy?</button>
+                <button onclick="sendQuickMsg('Contact Admin')">Contact Admin</button>
+            </div>
+
+            <!-- CHAT INPUT BAR -->
+            <div class="chat-input-bar">
+                <input type="text" id="chatInput" placeholder="Ask a question..." onkeydown="if(event.key === 'Enter') sendChatMessage()">
+                <button class="chat-send-btn" onclick="sendChatMessage()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL & CHATBOT INTERACTION SCRIPTS -->
+    <script>
+        function fillSample(type) {
+            const textarea = document.getElementById('reviewTextarea');
+            if (type === 'genuine') {
+                textarea.value = "I have been using this wireless headphone model for two weeks. The active noise cancellation is impressive for urban commutes, though the headband gets slightly tight after 2 hours of continuous wear.";
+            } else {
+                textarea.value = "BEST PRODUCT EVER MUST BUY! Unbelievable miracle worker! I bought 50 of them for all my family members. 1000x better than everything else on earth buy now buy now AAA+++ seller!";
+            }
+        }
+
+        function openSettingsModal() {
+
+            document.getElementById('settingsModal').classList.add('active');
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settingsModal').classList.remove('active');
+        }
+
+        function openContactModal() {
+            document.getElementById('contactModal').classList.add('active');
+        }
+
+        function closeContactModal() {
+            document.getElementById('contactModal').classList.remove('active');
+        }
+
+        function openAboutModal() {
+            document.getElementById('aboutModal').classList.add('active');
+        }
+
+        function closeAboutModal() {
+            document.getElementById('aboutModal').classList.remove('active');
+        }
+
+        function copyEmail() {
+            navigator.clipboard.writeText('madhav.gannina21@gmail.com');
+            alert('Email copied to clipboard: madhav.gannina21@gmail.com');
+        }
+
+        function handleContactSubmit(e) {
+            e.preventDefault();
+            alert('Your message has been sent to the administrator! We will get back to you shortly.');
+            closeContactModal();
+        }
+
+        function updateSliderTrack(val) {
+            const min = 50;
+            const max = 95;
+            const pct = ((val - min) / (max - min)) * 100;
+            const rangeInput = document.getElementById('confidenceRange');
+            if (rangeInput) {
+                rangeInput.style.background = `linear-gradient(to right, #107c41 ${pct}%, #e2e8f0 ${pct}%)`;
+            }
+            const thresholdVal = document.getElementById('thresholdVal');
+            if (thresholdVal) {
+                thresholdVal.innerText = val + '%';
+            }
+            const hiddenInput = document.getElementById('hiddenThresholdInput');
+            if (hiddenInput) {
+                hiddenInput.value = val;
+            }
+        }
+
+        function saveSettings() {
+            const rangeInput = document.getElementById('confidenceRange');
+            if (rangeInput) {
+                const val = rangeInput.value;
+                localStorage.setItem('confidenceThreshold', val);
+                updateSliderTrack(val);
+                alert('Preferences saved! Confidence threshold set to ' + val + '%.');
+            }
+            closeSettingsModal();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedVal = localStorage.getItem('confidenceThreshold') || '75';
+            const rangeInput = document.getElementById('confidenceRange');
+            if (rangeInput) {
+                rangeInput.value = savedVal;
+                updateSliderTrack(savedVal);
+            }
+        });
+
+
+        function clearHistoryApi() {
+            if (confirm('Are you sure you want to clear all prediction history?')) {
+                fetch('/clear_history', { method: 'POST' })
+                    .then(res => res.json())
+                    .then(data => {
+                        window.location.reload();
+                    })
+                    .catch(err => alert('Failed to clear history: ' + err));
+            }
+        }
+
+        /* CHATBOT FUNCTIONS */
+        function toggleChatbot() {
+            const chatWin = document.getElementById('chatWindow');
+            chatWin.classList.toggle('active');
+        }
+
+        function sendQuickMsg(msgText) {
+            document.getElementById('chatInput').value = msgText;
+            sendChatMessage();
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            const chatMessages = document.getElementById('chatMessages');
+
+            // User Bubble
+            const userMsgDiv = document.createElement('div');
+            userMsgDiv.className = 'msg-bubble user-msg';
+            userMsgDiv.innerText = message;
+            chatMessages.appendChild(userMsgDiv);
+            input.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            if (message.toLowerCase().includes('contact admin') || message.toLowerCase().includes('admin')) {
+                openContactModal();
+            }
+
+            // Call API
+            fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: message })
+            })
+            .then(res => res.json())
+            .then(data => {
+                const botMsgDiv = document.createElement('div');
+                botMsgDiv.className = 'msg-bubble bot-msg';
+                botMsgDiv.innerText = data.response || 'I am here to help!';
+                chatMessages.appendChild(botMsgDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            })
+            .catch(err => {
+                const botMsgDiv = document.createElement('div');
+                botMsgDiv.className = 'msg-bubble bot-msg';
+                botMsgDiv.innerText = 'For direct admin support, please email madhav.gannina21@gmail.com.';
+                chatMessages.appendChild(botMsgDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+project:
+  name: fake-review-intelligence
+  seed: 42
+
+data:
+  # Dataset: Kaggle "Fake Reviews Dataset" (label CG = computer-generated -> FAKE, OR = original -> GENUINE)
+  path: data/fake reviews dataset.csv
+  text_col: text_
+  label_col: label
+  label_map: {CG: 1, OR: 0}      # 1 = FAKE (positive class), 0 = GENUINE
+  sample_size: null              # set an int for quick CI smoke training
+  min_chars: 1
+  max_chars: 5000
+  near_dup_threshold: 0.90       # cosine similarity above which reviews are grouped (never split across sets)
+  test_size: 0.15
+  val_size: 0.15
+
+features:
+  word_ngram: [1, 2]
+  word_max_features: 60000
+  char_ngram: [2, 5]
+  char_max_features: 50000
+  min_df: 2
+  use_style_features: true
+
+training:
+  cv_folds: 3                    # only used with --cv
+  selection_metric: f1_fake      # chosen on VALIDATION split, never on test
+  calibration: sigmoid           # sigmoid (Platt) | isotonic
+  calibration_cv: 3
+  candidates: [logreg, linear_svc, naive_bayes, random_forest]
+  ensemble: true
+  transformer:
+    enabled: false               # see src/models/transformer.py (CPU-expensive)
+    model_name: distilbert-base-uncased
+    train_samples: 8000
+    max_length: 128
+    epochs: 1
+
+confidence:
+  high: 0.85
+  medium: 0.70                   # below `medium` => LOW (calibrated probability of predicted class)
+
+similarity:
+  near_duplicate: 0.90
+  similar: 0.75
+
+api:
+  max_review_chars: 5000
+  max_batch: 2000
+  db_path: data/predictions.db
+
+monitoring:
+  psi_threshold: 0.2
+  ks_pvalue_threshold: 0.01
+  min_samples: 50
+  low_confidence_rate_alert: 0.5
+
+paths:
+  models_dir: models
+  reports_dir: reports
+  mlflow_uri: sqlite:///mlflow.db
+  mlflow_experiment: fake-review-detection
+  registered_model_name: fake-review-classifier

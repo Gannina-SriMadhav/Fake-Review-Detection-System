@@ -1,0 +1,22 @@
+name: CI
+on:
+  push: { branches: [main] }
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11", cache: pip }
+      - run: pip install -r requirements.txt && python -c "import nltk; nltk.download('vader_lexicon')"
+      - name: Smoke-train on a sample (full training is a separate, controlled workflow)
+        run: python -m src.models.train --sample 3000 --no-mlflow
+      - run: python -m pytest -q
+  docker:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t fake-review-api .
+      - run: docker compose config -q

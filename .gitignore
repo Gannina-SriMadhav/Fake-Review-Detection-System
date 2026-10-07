@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+.venv/
+mlruns/
+mlflow.db
+data/predictions.db
+*.log
+smoke.log
+models/*.joblib
+.pytest_cache/
+.dvc/cache
+
+*.err
+mlflow-data/
+reports/evaluation.json.bak
+legacy/database.db
+*.db

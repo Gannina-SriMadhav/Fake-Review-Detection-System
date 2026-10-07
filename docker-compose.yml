@@ -1,0 +1,23 @@
+services:
+  api:
+    build: .
+    ports: ["8000:8000"]
+    volumes: ["./models:/app/models", "./reports:/app/reports", "./data:/app/data"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request as u; u.urlopen('http://localhost:8000/health')"]
+      interval: 15s
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:latest
+    command: mlflow server --host 0.0.0.0 --port 5000 --backend-store-uri sqlite:///mlflow.db
+    ports: ["5000:5000"]
+    volumes: ["./mlflow-data:/mlflow"]
+  prometheus:
+    image: prom/prometheus
+    volumes: ["./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml"]
+    ports: ["9090:9090"]
+    depends_on: [api]
+  grafana:
+    image: grafana/grafana
+    volumes: ["./monitoring/grafana/provisioning:/etc/grafana/provisioning", "./monitoring/grafana/dashboards:/var/lib/grafana/dashboards"]
+    ports: ["3000:3000"]
+    depends_on: [prometheus]

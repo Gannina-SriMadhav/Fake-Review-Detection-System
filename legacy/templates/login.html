@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Fake Review Detection System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="login-body-page">
+
+    <div class="login-wrapper">
+        <div class="login-card-container">
+            <!-- BRAND HEADER -->
+            <div class="login-brand">
+                <div class="login-brand-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        <path d="m9 12 2 2 4-4"></path>
+                    </svg>
+                </div>
+                <h2>Fake Review Detection System</h2>
+                <p>AI-Powered Review Authenticity Platform</p>
+            </div>
+
+
+            <!-- FLASH ALERTS -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-container">
+                        {% for category, message in messages %}
+                            <div class="flash-alert flash-{{ category }}">
+                                <span>{{ message }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <!-- AUTH TAB CONTROLS -->
+            <div class="auth-mode-toggle">
+                <button class="toggle-tab {% if active_tab != 'register' %}active{% endif %}" onclick="showTab('login')">Sign In</button>
+                <button class="toggle-tab {% if active_tab == 'register' %}active{% endif %}" onclick="showTab('register')">Register</button>
+            </div>
+
+            <!-- SIGN IN FORM -->
+            <form action="{{ url_for('login') }}" method="POST" id="loginForm" class="auth-form-body {% if active_tab == 'register' %}hidden-form{% endif %}">
+                <div class="input-group">
+                    <label for="login_email">Email Address</label>
+                    <input type="email" id="login_email" name="email" placeholder="name@company.com" required class="auth-input">
+                </div>
+
+                <div class="input-group">
+                    <label for="login_password">Password</label>
+                    <input type="password" id="login_password" name="password" placeholder="••••••••" required class="auth-input">
+                </div>
+
+                <button type="submit" class="submit-btn full-width-btn">
+                    <span>Sign In to Dashboard</span>
+                </button>
+            </form>
+
+            <!-- REGISTER FORM -->
+            <form action="{{ url_for('register') }}" method="POST" id="registerForm" class="auth-form-body {% if active_tab != 'register' %}hidden-form{% endif %}">
+                <div class="input-group">
+                    <label for="reg_username">Username</label>
+                    <input type="text" id="reg_username" name="username" placeholder="e.g. madhav" required class="auth-input">
+                </div>
+
+                <div class="input-group">
+                    <label for="reg_email">Email Address</label>
+                    <input type="email" id="reg_email" name="email" placeholder="name@company.com" required class="auth-input">
+                </div>
+
+                <div class="input-group">
+                    <label for="reg_password">Password</label>
+                    <input type="password" id="reg_password" name="password" placeholder="Minimum 6 characters" minlength="6" required class="auth-input">
+                </div>
+
+                <button type="submit" class="submit-btn full-width-btn">
+                    <span>Create Account</span>
+                </button>
+            </form>
+
+            <!-- GUEST ACCESS LINK -->
+            <div class="login-footer">
+                <a href="{{ url_for('home') }}" class="guest-link">Continue as Guest &rarr;</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const tabs = document.querySelectorAll('.toggle-tab');
+
+            if (tabName === 'login') {
+                loginForm.classList.remove('hidden-form');
+                registerForm.classList.add('hidden-form');
+                tabs[0].classList.add('active');
+                tabs[1].classList.remove('active');
+            } else {
+                loginForm.classList.add('hidden-form');
+                registerForm.classList.remove('hidden-form');
+                tabs[0].classList.remove('active');
+                tabs[1].classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>

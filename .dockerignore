@@ -1,0 +1,6 @@
+legacy
+mlruns
+mlflow.db
+*.log
+.git
+__pycache__
