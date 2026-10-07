@@ -31,12 +31,12 @@ Most "fake review detectors" are a single model that prints `FAKE (99.9%)`. Veri
 
 ```mermaid
 flowchart LR
-  A[📝 Paste a review] --> B[🧹 Light cleaning<br/>keeps style & punctuation]
-  B --> C[🔬 Features<br/>word + character n-grams<br/>+ 18 style signals]
-  C --> D[🤖 Model(s)<br/>LR · SVM · NB · RF · Ensemble]
-  D --> E[🎯 Calibration<br/>scores → honest probabilities]
-  E --> F[🔍 Evidence<br/>word effects · similarity check]
-  F --> G[📊 Verdict + confidence level + warnings]
+  A["📝 Paste a review"] --> B["🧹 Light cleaning<br/>keeps style & punctuation"]
+  B --> C["🔬 Features<br/>word + character n-grams<br/>+ 18 style signals"]
+  C --> D["🤖 Model(s)<br/>LR · SVM · NB · RF · Ensemble"]
+  D --> E["🎯 Calibration<br/>scores → honest probabilities"]
+  E --> F["🔍 Evidence<br/>word effects · similarity check"]
+  F --> G["📊 Verdict + confidence level + warnings"]
 ```
 
 1. **Cleaning is deliberately light.** HTML and whitespace are removed, but capitalisation, punctuation, repeated letters and emoji are *kept* — they are legitimate style clues.
@@ -111,10 +111,10 @@ A project that only reports good news isn't engineering. Running the robustness 
 
 ```mermaid
 flowchart LR
-  CSV[(40,432 raw reviews)] --> V[Schema validation] --> D[Drop missing & 41 exact duplicates]
-  D --> N[Near-duplicate clustering<br/>cosine ≥ 0.90 → 109 clusters] --> S[Stratified group split]
-  S --> TR[Train 28,850] & VA[Validation 5,770] & TE[Test 5,771]
-  TR --> F[Fit features + models<br/>TRAIN ONLY] --> CAL[Calibrate] --> SEL[Select on VALIDATION] --> REP[Score TEST once]
+  CSV["40,432 raw reviews"] --> V["Schema validation"] --> D["Drop missing & 41 exact duplicates"]
+  D --> N["Near-duplicate clustering<br/>cosine ≥ 0.90 → 109 clusters"] --> S["Stratified group split"]
+  S --> TR["Train 28,850"] & VA["Validation 5,770"] & TE["Test 5,771"]
+  TR --> F["Fit features + models<br/>TRAIN ONLY"] --> CAL["Calibrate"] --> SEL["Select on VALIDATION"] --> REP["Score TEST once"]
 ```
 
 - Conflicting-label duplicates are dropped; train/val/test share **no exact duplicates and no near-duplicate clusters** (enforced by assertions).
@@ -170,14 +170,14 @@ Inputs are validated (empty, > 5,000 chars, bad JSON → `422`); unexpected erro
 
 ```mermaid
 flowchart TB
-  U[Browser] -->|HTML + fetch| API[FastAPI]
-  API --> SVC[ModelService]
-  SVC --> M[(5 calibrated models)]
-  SVC --> SIM[Similarity index]
-  SVC --> LOG[(SQLite prediction log)]
-  API --> PM[/metrics/] --> PR[Prometheus] --> GR[Grafana]
-  LOG --> DR[Drift checks: PSI · KS · Evidently]
-  TR[Training pipeline] --> M & REP[reports/ + model card] & ML[MLflow registry]
+  U["Browser"] -->|HTML + fetch| API["FastAPI"]
+  API --> SVC["ModelService"]
+  SVC --> M["5 calibrated models"]
+  SVC --> SIM["Similarity index"]
+  SVC --> LOG["SQLite prediction log"]
+  API --> PM["/metrics endpoint"] --> PR["Prometheus"] --> GR["Grafana"]
+  LOG --> DR["Drift checks: PSI · KS · Evidently"]
+  TR["Training pipeline"] --> M & REP["reports/ + model card"] & ML["MLflow registry"]
 ```
 
 ---
